@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:newsgunj.com)",
+      "Bash(php -r ' *)"
+    ]
+  }
+}
