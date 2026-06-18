@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="login-brand">
     <div class="login-brand-icon"><i class="fa fa-newspaper"></i></div>
-    <h1><?= SITE_NAME ?></h1>
-    <p>सम्पादक प्यानल</p>
+    <h1><?= BRAND_NAME ?></h1>
+    <p><?= SITE_NAME ?> — सम्पादक प्यानल</p>
   </div>
 
   <div class="login-card">

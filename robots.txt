@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Block admin areas
+Disallow: /admin/
+Disallow: /includes/
+
+# Block setup and config files
+Disallow: /config.php
+Disallow: /setup.php
+Disallow: /track-ad-click.php
+
+# Block assets that shouldn't be crawled
+Disallow: /assets/css/
+Disallow: /assets/js/
+Disallow: /assets/images/
+
+# Allow sitemap
+Sitemap: http://localhost/news/sitemap.php

@@ -63,6 +63,22 @@ $conn->query("CREATE TABLE breaking_news (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
+$conn->query("CREATE TABLE advertisements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    image VARCHAR(255),
+    link VARCHAR(500),
+    position ENUM('header','sidebar','footer','inline') DEFAULT 'sidebar',
+    size ENUM('small','medium','large','banner') DEFAULT 'medium',
+    is_active TINYINT(1) DEFAULT 1,
+    sort_order INT DEFAULT 0,
+    start_date DATE,
+    end_date DATE,
+    click_count INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
 // Insert admin user (password: admin123)
 $pass = password_hash('admin123', PASSWORD_DEFAULT);
 $conn->query("INSERT INTO admin_users (username, password, email, full_name) VALUES ('admin', '$pass', 'admin@newsportal.com', 'प्रधान सम्पादक')");
@@ -225,6 +241,21 @@ $breaking = [
 foreach ($breaking as $b) {
     $stmt = $conn->prepare("INSERT INTO breaking_news (text) VALUES (?)");
     $stmt->bind_param("s", $b);
+    $stmt->execute();
+}
+
+// Insert sample advertisements
+$ads_data = [
+    [BRAND_NAME . ' Premium', 'https://picsum.photos/seed/ad1/300/250', 'https://example.com/premium', 'sidebar', 'medium', 1, 1],
+    ['Mobile Banking App', 'https://picsum.photos/seed/ad2/300/100', 'https://example.com/banking', 'header', 'banner', 1, 2],
+    ['Online Shopping', 'https://picsum.photos/seed/ad3/300/200', 'https://example.com/shopping', 'sidebar', 'large', 1, 3],
+    ['Educational Courses', 'https://picsum.photos/seed/ad4/728/90', 'https://example.com/courses', 'footer', 'banner', 1, 4],
+    ['Real Estate Nepal', 'https://picsum.photos/seed/ad5/300/150', 'https://example.com/realestate', 'inline', 'medium', 1, 5],
+];
+
+foreach ($ads_data as $ad) {
+    $stmt = $conn->prepare("INSERT INTO advertisements (title, image, link, position, size, is_active, sort_order) VALUES (?,?,?,?,?,?,?)");
+    $stmt->bind_param("sssssii", $ad[0], $ad[1], $ad[2], $ad[3], $ad[4], $ad[5], $ad[6]);
     $stmt->execute();
 }
 

@@ -15,7 +15,8 @@ function getArticlesByCategory($category_id, $limit = 6, $offset = 0) {
         ORDER BY a.published_at DESC LIMIT ? OFFSET ?");
     $stmt->bind_param("iii", $category_id, $limit, $offset);
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $result = $stmt->get_result();
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 }
 
 function getLatestArticles($limit = 12, $offset = 0) {
@@ -26,7 +27,8 @@ function getLatestArticles($limit = 12, $offset = 0) {
         ORDER BY a.published_at DESC LIMIT ? OFFSET ?");
     $stmt->bind_param("ii", $limit, $offset);
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $result = $stmt->get_result();
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 }
 
 function getFeaturedArticles($limit = 4) {
@@ -37,7 +39,8 @@ function getFeaturedArticles($limit = 4) {
         ORDER BY a.published_at DESC LIMIT ?");
     $stmt->bind_param("i", $limit);
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $result = $stmt->get_result();
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 }
 
 function getBreakingNews() {
@@ -54,7 +57,8 @@ function getPopularArticles($limit = 5) {
         ORDER BY a.views DESC LIMIT ?");
     $stmt->bind_param("i", $limit);
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $result = $stmt->get_result();
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 }
 
 function getArticleBySlug($slug) {
@@ -102,15 +106,33 @@ function getRelatedArticles($article_id, $category_id, $limit = 4) {
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-function getImageUrl($image, $seed = null) {
+function getImageUrl($image, $seed = null, $size = 'medium') {
     if ($image && str_starts_with($image, 'http')) {
         return $image;
     }
     if ($image && file_exists(UPLOAD_PATH . $image)) {
-        return UPLOAD_URL . $image;
+        $path = UPLOAD_URL . $image;
+
+        // Check if WebP version exists
+        $webp_path = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $path);
+        $webp_file = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', UPLOAD_PATH . $image);
+        if (file_exists($webp_file)) {
+            return $webp_path;
+        }
+
+        return $path;
     }
+
+    // Fallback to optimized picsum with size
+    $sizes = [
+        'small' => '400/300',
+        'medium' => '600/400',
+        'large' => '800/600'
+    ];
+    $dimensions = $sizes[$size] ?? $sizes['medium'];
     $s = $seed ?? abs(crc32($image ?? uniqid()));
-    return 'https://picsum.photos/seed/' . $s . '/800/500';
+
+    return 'https://picsum.photos/seed/' . $s . '/' . $dimensions . '?webp=true';
 }
 
 function timeAgo($datetime) {
@@ -207,4 +229,138 @@ function totalArticlesByCategory($cat_id) {
     $stmt->bind_param("i", $cat_id);
     $stmt->execute();
     return $stmt->get_result()->fetch_row()[0];
+}
+
+// Advertisement functions
+function getAdvertisements($position = null, $active_only = true) {
+    $db = getDB();
+    $where = $active_only ? "WHERE is_active = 1" : "WHERE 1=1";
+    if ($position) {
+        $where .= " AND position = ?";
+        $stmt = $db->prepare("SELECT * FROM advertisements $where ORDER BY sort_order ASC");
+        $stmt->bind_param("s", $position);
+    } else {
+        $stmt = $db->prepare("SELECT * FROM advertisements $where ORDER BY sort_order ASC");
+    }
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function getAdvertisementById($id) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM advertisements WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+function createAdvertisement($data) {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO advertisements (title, image, link, position, size, is_active, sort_order, start_date, end_date) VALUES (?,?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("sssssisss",
+        $data['title'],
+        $data['image'],
+        $data['link'],
+        $data['position'],
+        $data['size'],
+        $data['is_active'],
+        $data['sort_order'],
+        $data['start_date'],
+        $data['end_date']
+    );
+    return $stmt->execute();
+}
+
+function updateAdvertisement($id, $data) {
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE advertisements SET title=?, image=?, link=?, position=?, size=?, is_active=?, sort_order=?, start_date=?, end_date=? WHERE id=?");
+    $stmt->bind_param("sssssisssi",
+        $data['title'],
+        $data['image'],
+        $data['link'],
+        $data['position'],
+        $data['size'],
+        $data['is_active'],
+        $data['sort_order'],
+        $data['start_date'],
+        $data['end_date'],
+        $id
+    );
+    return $stmt->execute();
+}
+
+function deleteAdvertisement($id) {
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM advertisements WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+
+function incrementAdClick($id) {
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE advertisements SET click_count = click_count + 1 WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+
+function displayAdvertisement($position, $size = null, $limit = 1) {
+    $ads = getAdvertisements($position, true);
+
+    // Filter by size if specified
+    if ($size) {
+        $ads = array_filter($ads, function($ad) use ($size) {
+            return $ad['size'] === $size;
+        });
+    }
+
+    // Filter by date range
+    $today = date('Y-m-d');
+    $ads = array_filter($ads, function($ad) use ($today) {
+        $start_ok = empty($ad['start_date']) || $ad['start_date'] <= $today;
+        $end_ok = empty($ad['end_date']) || $ad['end_date'] >= $today;
+        return $start_ok && $end_ok;
+    });
+
+    // Limit results
+    $ads = array_slice($ads, 0, $limit);
+
+    if (empty($ads)) {
+        return getAdPlaceholder($position, $size);
+    }
+
+    $output = '';
+    foreach ($ads as $ad) {
+        $output .= '<div class="advertisement ad-' . $ad['size'] . '" data-ad-id="' . $ad['id'] . '">';
+        if ($ad['link']) {
+            $output .= '<a href="' . e($ad['link']) . '" target="_blank" onclick="trackAdClick(' . $ad['id'] . ')">';
+        }
+        if ($ad['image']) {
+            $output .= '<img src="' . getImageUrl($ad['image']) . '" alt="' . e($ad['title']) . '" loading="lazy">';
+        } else {
+            $output .= '<div class="ad-text">' . e($ad['title']) . '</div>';
+        }
+        if ($ad['link']) {
+            $output .= '</a>';
+        }
+        $output .= '</div>';
+    }
+
+    return $output;
+}
+
+function getAdPlaceholder($position, $size = null) {
+    $dimensions = [
+        'small' => '200 × 100',
+        'medium' => '300 × 250',
+        'large' => '300 × 400',
+        'banner' => '728 × 90'
+    ];
+
+    $dim = $size && isset($dimensions[$size]) ? $dimensions[$size] : '300 × 250';
+
+    return '<div class="ad-placeholder">
+        <i class="fa fa-ad"></i>
+        <span>विज्ञापन</span>
+        <span style="font-size:10px">' . $dim . '</span>
+    </div>';
 }

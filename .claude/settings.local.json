@@ -2,7 +2,22 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:newsgunj.com)",
-      "Bash(php -r ' *)"
+      "Bash(php -r ' *)",
+      "WebFetch(domain:www.onlinekhabar.com)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Downloads\\\\stitch_onlinekhabar_news_portal\" -Recurse | ForEach-Object { $_.FullName })",
+      "Bash(claude mcp *)",
+      "Bash(curl *)",
+      "Bash(start *)",
+      "Bash(npx @playwright/mcp@latest --help)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "Bash(tasklist)",
+      "WebSearch",
+      "WebFetch(domain:english.nepalnews.com)",
+      "Bash(mysql *)",
+      "PowerShell(& \"C:\\\\Apache24\\\\bin\\\\mysql.exe\" -u root -e \"USE news_db; SHOW TABLES; DESCRIBE articles; SELECT id, name, slug FROM categories;\" 2>&1)"
     ]
   }
 }

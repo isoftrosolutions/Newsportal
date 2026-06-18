@@ -37,13 +37,8 @@ require_once __DIR__ . '/includes/header.php';
 <div class="content-sidebar">
   <div>
     <div class="section-header">
-      <h1 class="section-title">
-        <a class="cat-badge" style="background:<?= e($category['color']) ?>"
-           href="<?= url('category', $category['slug']) ?>">
-          <?= e($category['name']) ?>
-        </a>
-        <span style="font-size:14px;color:#888;font-weight:400;margin-left:8px;">(<?= $total ?> समाचार)</span>
-      </h1>
+      <h1 class="section-title"><?= e($category['name']) ?></h1>
+      <span style="font-size:11.5px;color:rgba(255,255,255,0.60);font-weight:400;"><?= $total ?> समाचार</span>
     </div>
 
     <?php if (empty($articles)): ?>
@@ -57,7 +52,7 @@ require_once __DIR__ . '/includes/header.php';
       <div class="article-card">
         <div class="card-img-wrap">
           <a href="<?= url('article', $art['slug']) ?>">
-            <img class="card-img" src="<?= getImageUrl($art['image']) ?>" alt="<?= e($art['title']) ?>">
+            <img class="card-img" src="<?= getImageUrl($art['image']) ?>" alt="<?= e($art['title']) ?>" loading="lazy">
           </a>
         </div>
         <div class="card-body">
@@ -99,28 +94,33 @@ require_once __DIR__ . '/includes/header.php';
   <aside class="sidebar">
     <div class="sidebar-widget">
       <div class="widget-title"><i class="fa fa-fire"></i> लोकप्रिय समाचार</div>
-      <div class="popular-list">
-        <?php foreach (getPopularArticles(5) as $i => $art): ?>
-        <div class="popular-item">
-          <div class="pop-num <?= $i < 3 ? 'top3' : '' ?>"><?= $i + 1 ?></div>
-          <a href="<?= url('article', $art['slug']) ?>">
-            <img class="pop-img" src="<?= getImageUrl($art['image']) ?>" alt="<?= e($art['title']) ?>">
-          </a>
-          <div class="pop-body">
-            <a class="pop-title" href="<?= url('article', $art['slug']) ?>"><?= e($art['title']) ?></a>
-            <div class="pop-meta"><i class="fa fa-eye"></i> <?= number_format($art['views']) ?></div>
+      <div class="widget-body">
+        <div class="popular-list">
+          <?php foreach (getPopularArticles(5) as $i => $art): ?>
+          <div class="popular-item">
+            <div class="pop-num <?= $i < 3 ? 'top3' : '' ?>"><?= $i + 1 ?></div>
+            <a href="<?= url('article', $art['slug']) ?>">
+              <img class="pop-img" src="<?= getImageUrl($art['image']) ?>" alt="<?= e($art['title']) ?>" loading="lazy">
+            </a>
+            <div class="pop-body">
+              <a class="pop-title" href="<?= url('article', $art['slug']) ?>"><?= e($art['title']) ?></a>
+              <div class="pop-meta"><i class="fa fa-eye"></i> <?= number_format($art['views']) ?></div>
+            </div>
           </div>
+          <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
       </div>
     </div>
     <div class="sidebar-widget">
       <div class="widget-title"><i class="fa fa-list"></i> विभागहरू</div>
       <div class="cat-list">
         <?php foreach (getCategories() as $cat): ?>
-        <a href="<?= url('category', $cat['slug']) ?>" class="cat-list-item">
-          <span style="color:white;background:<?= e($cat['color']) ?>"><?= e($cat['name']) ?></span>
-          <span><?= totalArticlesByCategory($cat['id']) ?></span>
+        <a href="<?= url('category', $cat['slug']) ?>" class="cat-list-item <?= $cat['slug'] === $slug ? 'active' : '' ?>">
+          <span class="cat-name">
+            <span class="cat-dot" style="background:<?= e($cat['color']) ?>"></span>
+            <?= e($cat['name']) ?>
+          </span>
+          <span class="cat-count"><?= totalArticlesByCategory($cat['id']) ?></span>
         </a>
         <?php endforeach; ?>
       </div>

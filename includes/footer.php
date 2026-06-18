@@ -1,19 +1,24 @@
 <?php $categories_footer = getCategories(); ?>
 </div><!-- .container -->
+</div><!-- .content-main -->
+<aside class="content-ad-sidebar right">
+  <?= displayAdvertisement('footer', 'medium') ?>
+</aside>
+</div><!-- .content-with-ads -->
 </main>
 
 <footer class="site-footer">
   <div class="footer-top">
     <div class="container footer-grid">
       <div class="footer-col">
-        <h3 class="footer-logo"><?= SITE_NAME ?></h3>
-        <p><?= SITE_TAGLINE ?></p>
+        <h3 class="footer-logo"><?= BRAND_NAME ?></h3>
+        <p><?= SITE_NAME ?> — <?= SITE_TAGLINE ?></p>
         <p class="footer-about">हामी सत्य, निष्पक्ष र भरपर्दो समाचार प्रदान गर्न प्रतिबद्ध छौं। नेपाल र विश्वका ताजा समाचार एकै ठाउँमा।</p>
         <div class="footer-social">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-x-twitter"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/share/1M6PDqLoPw/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.tiktok.com/@gtnewsnepalupdate" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+          <a href="https://youtube.com/@gtnewsupdate?si=c_kkZsMWlpfSn7o7" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="https://instagram.com/gtnewsnepal" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
       <div class="footer-col">
@@ -37,16 +42,23 @@
       </div>
       <div class="footer-col">
         <h4>सम्पर्क</h4>
-        <p><i class="fa fa-map-marker-alt"></i> काठमाडौं, नेपाल</p>
-        <p><i class="fa fa-envelope"></i> info@newsportal.com.np</p>
-        <p><i class="fa fa-phone"></i> +९७७-०१-XXXXXXX</p>
-        <p class="footer-note">Press Council Nepal दर्ता नम्बर: XXXX/XXXX</p>
+        <p><i class="fa fa-map-marker-alt"></i> पर्सा (Parsa), Nepal</p>
+        <p><i class="fa fa-phone"></i> 9829406332</p>
+        <p><i class="fa fa-user"></i> श्री आशिष रौनियार - सञ्चारकर्मी तथा सम्पादक</p>
+        <p class="footer-note">Press Council Nepal दर्ता नम्बर: 304268/079/080</p>
+        <p class="footer-note">PAN No: 610419238</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/share/1M6PDqLoPw/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.tiktok.com/@gtnewsnepalupdate" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://youtube.com/@gtnewsupdate?si=c_kkZsMWlpfSn7o7" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://instagram.com/gtnewsnepal" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
       </div>
     </div>
   </div>
   <div class="footer-bottom">
     <div class="container">
-      <p>&copy; <?= date('Y') ?> <?= SITE_NAME ?>. सर्वाधिकार सुरक्षित।</p>
+      <p>&copy; <?= date('Y') ?> <?= BRAND_NAME ?>. सर्वाधिकार सुरक्षित।</p>
     </div>
   </div>
 </footer>

@@ -39,18 +39,17 @@ require_once __DIR__ . '/includes/header.php';
       <?php foreach ($results as $art): ?>
       <div class="search-card">
         <a href="<?= url('article', $art['slug']) ?>">
-          <img src="<?= getImageUrl($art['image']) ?>" alt="<?= e($art['title']) ?>">
+          <img src="<?= getImageUrl($art['image']) ?>" alt="<?= e($art['title']) ?>" loading="lazy">
         </a>
         <div class="search-card-body">
-          <a class="cat-badge" style="background:<?= e($art['cat_color']) ?>"
-             href="<?= url('category', $art['cat_slug']) ?>">
+          <a class="cat-badge" href="<?= url('category', $art['cat_slug']) ?>">
             <?= e($art['cat_name']) ?>
           </a>
           <h2 class="search-card-title">
             <a href="<?= url('article', $art['slug']) ?>"><?= e($art['title']) ?></a>
           </h2>
           <p class="search-card-excerpt"><?= e($art['excerpt']) ?></p>
-          <div class="article-meta" style="margin-top:8px;">
+          <div class="article-meta">
             <span><i class="fa fa-user"></i> <?= e($art['author']) ?></span>
             <span><i class="fa fa-clock"></i> <?= timeAgo($art['published_at']) ?></span>
           </div>
@@ -65,8 +64,11 @@ require_once __DIR__ . '/includes/header.php';
       <div class="cat-list">
         <?php foreach (getCategories() as $cat): ?>
         <a href="<?= url('category', $cat['slug']) ?>" class="cat-list-item">
-          <span style="color:white;background:<?= e($cat['color']) ?>"><?= e($cat['name']) ?></span>
-          <span><?= totalArticlesByCategory($cat['id']) ?></span>
+          <span class="cat-name">
+            <span class="cat-dot" style="background:<?= e($cat['color']) ?>"></span>
+            <?= e($cat['name']) ?>
+          </span>
+          <span class="cat-count"><?= totalArticlesByCategory($cat['id']) ?></span>
         </a>
         <?php endforeach; ?>
       </div>

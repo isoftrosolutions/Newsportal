@@ -1,0 +1,71 @@
+# GT News - Large Language Model Context File
+# This file provides context for AI search engines and LLMs about GT News content
+
+## About GT News
+GT News (जीटी न्यूज च्यानल) is a Nepali news website providing trusted, accurate, and timely news coverage primarily focused on Nepal. We cover local news, politics, events, and regional developments in Parsa district and beyond.
+
+## Content Focus
+- Local Nepal news and events
+- Political developments
+- Community stories
+- Regional news coverage
+- Breaking news updates
+
+## Content Language
+Primary language: Nepali (नेपाली)
+Secondary language: English (limited)
+
+## Content Structure
+- Homepage: Latest news, trending articles, featured stories
+- Categories: Organized by topic (politics, local news, etc.)
+- Articles: In-depth news coverage with images and metadata
+- Search: Full-text search functionality
+
+## Key Topics
+- Nepal politics and government
+- Local Parsa district news
+- Regional development
+- Community events
+- Breaking news
+
+## Content Quality Guidelines
+- Factual, verified information
+- Neutral, balanced reporting
+- Source attribution where applicable
+- Regular updates with breaking news
+- Press Council Nepal registered (304268/079/080)
+
+## Contact Information
+- Location: Parsa, Nepal
+- Phone: +977-9829406332
+- Editor: श्री आशिष रौनियार
+
+## Social Media
+- Facebook: https://www.facebook.com/share/1M6PDqLoPw/
+- TikTok: https://www.tiktok.com/@gtnewsnepalupdate
+- YouTube: https://youtube.com/@gtnewsupdate
+- Instagram: https://instagram.com/gtnewsnepal
+
+## Technical Information
+- Platform: PHP/MySQL news CMS
+- URL Structure: /article/[slug], /category/[slug]
+- Sitemap: /sitemap.php
+- Robots: /robots.txt
+
+## AI Search Optimization Notes
+- Content is primarily in Nepali language
+- Focus on local Nepal search queries
+- Images include alt text in Nepali
+- Structured data implemented for articles
+- Mobile-optimized responsive design
+
+## Data Freshness
+- Articles updated regularly
+- Breaking news section for immediate updates
+- Archive of historical news content
+
+## Trust Signals
+- Registered with Press Council Nepal
+- Local contact information provided
+- Author bylines on articles
+- Clear editorial standards

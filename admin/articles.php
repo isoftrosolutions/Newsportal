@@ -64,7 +64,8 @@ if (isset($_GET['deleted'])): ?>
     <a href="articles.php" class="btn btn-outline">रिसेट</a>
   </form>
 
-  <table class="admin-table">
+  <div class="table-responsive">
+    <table class="admin-table">
     <thead>
       <tr>
         <th>#</th><th>शीर्षक</th><th>विभाग</th><th>फिचर्ड</th><th>अवस्था</th><th>हेराइ</th><th>मिति</th><th>कार्य</th>
@@ -77,7 +78,7 @@ if (isset($_GET['deleted'])): ?>
       <?php foreach ($articles as $i => $art): ?>
       <tr>
         <td><?= $offset + $i + 1 ?></td>
-        <td><a href="<?= SITE_URL ?>/article.php?slug=<?= htmlspecialchars($art['slug']) ?>" target="_blank"><?= mb_substr(htmlspecialchars($art['title']), 0, 55) ?>…</a></td>
+        <td><a href="<?= SITE_URL ?>/article/<?= htmlspecialchars($art['slug']) ?>" target="_blank"><?= mb_substr(htmlspecialchars($art['title']), 0, 55) ?>…</a></td>
         <td><?= htmlspecialchars($art['cat_name']) ?></td>
         <td><?= $art['is_featured'] ? '<i class="fa fa-star" style="color:#f39c12"></i>' : '-' ?></td>
         <td><span class="status-badge <?= $art['status'] === 'published' ? 'status-pub' : 'status-draft' ?>"><?= $art['status'] === 'published' ? 'प्रकाशित' : 'ड्राफ्ट' ?></span></td>
@@ -91,6 +92,7 @@ if (isset($_GET['deleted'])): ?>
       <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
 
   <?php if ($pages > 1): ?>
   <div class="admin-pagination">
