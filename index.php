@@ -35,7 +35,7 @@ switch ($_current_route) {
 
     case 'article':
         $_current_slug = $parts[1] ?? '';
-        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $_current_slug)) {
+        if (!preg_match('/^[\p{L}\p{N}_-]+$/u', $_current_slug)) {
             http_response_code(404);
             include __DIR__ . '/404.php';
             break;
@@ -46,7 +46,7 @@ switch ($_current_route) {
 
     case 'category':
         $_current_slug = $parts[1] ?? '';
-        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $_current_slug)) {
+        if (!preg_match('/^[\p{L}\p{N}_-]+$/u', $_current_slug)) {
             http_response_code(404);
             include __DIR__ . '/404.php';
             break;
