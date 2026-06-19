@@ -1,6 +1,5 @@
 Options -Indexes
 RewriteEngine On
-RewriteBase /news/
 
 # Pass admin through untouched
 RewriteRule ^admin(/.*)?$ - [L]
