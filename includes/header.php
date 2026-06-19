@@ -3,13 +3,18 @@ require_once __DIR__ . '/functions.php';
 $categories = getCategories();
 $breaking = getBreakingNews();
 $nepali_date = getNepaliDate();
-// Detect current route for active nav highlighting
-$_base_path   = rtrim(parse_url(SITE_URL, PHP_URL_PATH), '/');
-$_uri_path    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$_clean_path  = trim(substr($_uri_path, strlen($_base_path)), '/');
-$_route_parts = $_clean_path !== '' ? explode('/', $_clean_path) : [];
-$current_route = $_route_parts[0] ?? '';
-$current_cat   = $_route_parts[1] ?? ($_GET['slug'] ?? '');
+// Use centralized route info (set by index.php) with fallback for direct file access
+if (isset($_current_route)) {
+    $current_route = $_current_route;
+    $current_cat   = $_current_slug;
+} else {
+    $_base_path   = rtrim(parse_url(SITE_URL, PHP_URL_PATH), '/');
+    $_uri_path    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $_clean_path  = trim(substr($_uri_path, strlen($_base_path)), '/');
+    $_route_parts = $_clean_path !== '' ? explode('/', $_clean_path) : [];
+    $current_route = $_route_parts[0] ?? '';
+    $current_cat   = $_route_parts[1] ?? ($_GET['slug'] ?? '');
+}
 ?>
 <!DOCTYPE html>
 <html lang="ne">

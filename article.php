@@ -10,7 +10,14 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
 $slug = trim($_GET['slug'] ?? '');
-if (!$slug) { header('Location: ' . SITE_URL . '/'); exit; }
+if (!$slug) {
+    http_response_code(404);
+    $page_title = 'समाचार फेला परेन - ' . SITE_NAME;
+    require_once __DIR__ . '/includes/header.php';
+    echo '<div class="no-results"><i class="fa fa-exclamation-circle"></i><h3>समाचार फेला परेन</h3><p><a href="' . SITE_URL . '/">गृहपृष्ठमा फर्कनुहोस्</a></p></div>';
+    require_once __DIR__ . '/includes/footer.php';
+    exit;
+}
 
 $article = getArticleBySlug($slug);
 if (!$article) {

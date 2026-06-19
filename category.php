@@ -10,10 +10,16 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
 $slug = trim($_GET['slug'] ?? '');
-if (!$slug) { header('Location: ' . SITE_URL . '/'); exit; }
 
-$category = getCategoryBySlug($slug);
-if (!$category) { header('Location: ' . SITE_URL . '/'); exit; }
+$category = $slug ? getCategoryBySlug($slug) : null;
+if (!$slug || !$category) {
+    http_response_code(404);
+    $page_title = 'पृष्ठ फेला परेन - ' . SITE_NAME;
+    require_once __DIR__ . '/includes/header.php';
+    echo '<div class="no-results"><i class="fa fa-exclamation-circle"></i><h3>पृष्ठ फेला परेन</h3><p><a href="' . SITE_URL . '/">गृहपृष्ठमा फर्कनुहोस्</a></p></div>';
+    require_once __DIR__ . '/includes/footer.php';
+    exit;
+}
 
 $page     = max(1, (int)($_GET['page'] ?? 1));
 $limit    = 12;
