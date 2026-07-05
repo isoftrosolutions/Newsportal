@@ -45,7 +45,7 @@
         <p><i class="fa fa-map-marker-alt"></i> पर्सा (Parsa), Nepal</p>
         <p><i class="fa fa-phone"></i> +977 981-1805681</p>
         <p><i class="fa fa-user"></i> श्री गौरव यादव - सञ्चालक</p>
-        <p class="footer-note">Press Council Nepal दर्ता नम्बर: 304268/079/080</p>
+        <p class="footer-note"> दर्ता नम्बर: 304268/079/080</p>
         <p class="footer-note">PAN No: 610419238</p>
         <div class="footer-social">
           <a href="https://www.facebook.com/share/1M6PDqLoPw/" target="_blank"><i class="fab fa-facebook-f"></i></a>
