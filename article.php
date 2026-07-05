@@ -109,6 +109,7 @@ $breadcrumb_schema = [
 </script>
 
 
+<main class="max-w-7xl mx-auto px-4 py-stack-lg">
 <nav class="breadcrumb">
   <a href="<?= SITE_URL ?>/">गृहपृष्ठ</a>
   <span class="sep">/</span>
@@ -249,5 +250,7 @@ $breadcrumb_schema = [
     </div>
   </aside>
 </div>
+
+</main>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

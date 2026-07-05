@@ -16,6 +16,7 @@ $page_title = $q ? '"' . e($q) . '" को खोजी परिणाम - ' .
 require_once __DIR__ . '/includes/header.php';
 ?>
 
+<main class="max-w-7xl mx-auto px-4 py-stack-lg">
 <div class="search-header">
   <?php if ($q): ?>
   <h1>"<?= e($q) ?>" को खोजी परिणाम</h1>
@@ -76,5 +77,7 @@ require_once __DIR__ . '/includes/header.php';
   </aside>
 </div>
 <?php endif; ?>
+
+</main>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
