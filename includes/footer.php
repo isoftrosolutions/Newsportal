@@ -102,24 +102,38 @@ ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'r
 
 <script src="<?= SITE_URL ?>/assets/js/main.js"></script>
 
-<!-- Bottom Navigation for Mobile -->
-<nav class="fixed bottom-0 left-0 w-full bg-background border-t border-border-subtle z-50 md:hidden h-16 flex items-center justify-around shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
-<a href="<?= SITE_URL ?>/" class="flex flex-col items-center gap-1 text-primary no-underline">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="text-[10px] font-bold">Home</span>
+<!-- Bottom Navigation Bar (OK Mobile Style) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-border-subtle h-[65px] flex items-center justify-around px-2 z-[60] md:hidden ok-header-shadow">
+<a href="<?= SITE_URL ?>/" class="flex flex-col items-center justify-center gap-1 w-full text-primary no-underline">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold">होम</span>
 </a>
-<a href="<?= SITE_URL ?>/search" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
-<span class="material-symbols-outlined">explore</span>
-<span class="text-[10px] font-medium">Explore</span>
+<a href="<?= SITE_URL ?>/search" class="flex flex-col items-center justify-center gap-1 w-full text-on-surface-variant opacity-60 no-underline">
+<span class="material-symbols-outlined text-[26px]">trending_up</span>
+<span class="text-[10px] font-bold">ट्रेन्डिङ</span>
 </a>
-<a href="<?= SITE_URL ?>/search" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
-<span class="material-symbols-outlined">newspaper</span>
-<span class="text-[10px] font-medium">Latest</span>
+<?php
+$video_nav_slug = '';
+foreach ($categories_footer as $cat) {
+    if (stripos($cat['name'], 'भिडियो') !== false || stripos($cat['slug'], 'video') !== false) {
+        $video_nav_slug = $cat['slug'];
+        break;
+    }
+}
+?>
+<a href="<?= $video_nav_slug ? url('category', $video_nav_slug) : SITE_URL . '/search' ?>" class="flex flex-col items-center justify-center gap-1 w-full text-on-surface-variant opacity-60 no-underline">
+<span class="material-symbols-outlined text-[26px]">video_library</span>
+<span class="text-[10px] font-bold">भिडियो</span>
 </a>
-<a href="<?= SITE_URL ?>/saved" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline saved-nav-link">
-<span class="material-symbols-outlined" id="savedNavIcon">bookmark</span>
-<span class="text-[10px] font-medium">Saved</span>
+<a href="<?= SITE_URL ?>/saved" class="flex flex-col items-center justify-center gap-1 w-full text-on-surface-variant opacity-60 no-underline saved-nav-link">
+<span class="material-symbols-outlined text-[26px]" id="savedNavIcon">bookmark</span>
+<span class="text-[10px] font-bold">सेभ</span>
+</a>
+<a href="<?= SITE_URL ?>/admin/login.php" class="flex flex-col items-center justify-center gap-1 w-full text-on-surface-variant opacity-60 no-underline">
+<span class="material-symbols-outlined text-[26px]">account_circle</span>
+<span class="text-[10px] font-bold">प्रोफाइल</span>
 </a>
 </nav>
+<div class="h-[65px] md:hidden"></div>
 </body>
 </html>

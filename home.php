@@ -270,99 +270,138 @@ alt="<?= e($featured[0]['title']) ?>">
 <!-- ==================== MOBILE LAYOUT (hidden on desktop) ==================== -->
 <div class="block md:hidden">
 
+<?php
+// Market indices placeholder
+$indices = [
+    ['name' => 'NEPSE', 'value' => '२०७२.६४', 'change' => '१३.४', 'up' => true],
+    ['name' => 'USD/NPR', 'value' => '१३३.७८', 'change' => '०.०२', 'up' => false],
+    ['name' => 'GOLD', 'value' => '१,४२,१००', 'change' => '५००', 'up' => true],
+];
+?>
+
+<!-- Market Indices / Ticker Strip -->
+<div class="flex gap-4 overflow-x-auto px-4 py-3 bg-white border-b border-border-subtle hide-scrollbar">
+<?php foreach ($indices as $idx): ?>
+<div class="min-w-[120px] flex flex-col<?= $idx !== $indices[0] ? ' border-l border-border-subtle pl-4' : '' ?>">
+<span class="text-[11px] font-bold text-text-muted"><?= $idx['name'] ?></span>
+<div class="flex items-center gap-1">
+<span class="text-body-md font-bold"><?= $idx['value'] ?></span>
+<span class="text-xs flex items-center <?= $idx['up'] ? 'text-green-600' : 'text-red-500' ?>">
+<span class="material-symbols-outlined text-xs"><?= $idx['up'] ? 'trending_up' : 'trending_down' ?></span>
+<?= $idx['change'] ?>
+</span>
+</div>
+</div>
+<?php endforeach; ?>
+</div>
+
+<!-- Main Ad Placement (Top) -->
+<div class="px-4 py-4 bg-surface-alt flex justify-center border-b border-border-subtle">
+<div class="w-full rounded shadow-sm bg-surface-container-low flex items-center justify-center min-h-[80px]">
+<?= displayAdvertisement('mobile_top', 'banner') ?>
+</div>
+</div>
+
+<!-- Breaking News Strip (simple) -->
+<?php if (!empty($breaking)): ?>
+<div class="bg-primary/5 border-y border-primary/10 py-2 px-4 flex items-center gap-3">
+<span class="bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded leading-none uppercase">Breaking</span>
+<div class="flex-1 overflow-hidden">
+<p class="text-body-md font-bold text-primary truncate"><?= e($breaking[0]['text']) ?></p>
+</div>
+</div>
+<?php endif; ?>
+
 <?php if (!empty($featured)): ?>
-<!-- Hero Section -->
-<section class="mt-2">
-<article class="group">
-<div class="aspect-video relative overflow-hidden rounded-lg bg-surface-container-high">
+<!-- Lead Story (Full Width Overlay) -->
+<section class="mt-4 px-4">
+<article class="relative group cursor-pointer overflow-hidden rounded-xl">
+<a href="<?= url('article', $featured[0]['slug']) ?>" class="no-underline">
+<div class="aspect-[16/9]">
 <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="<?= getImageUrl($featured[0]['image'], null, 'large') ?>" alt="<?= e($featured[0]['title']) ?>" loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-<div class="absolute bottom-0 p-4">
-<span class="text-label-caps font-label-caps text-on-primary-container bg-primary-container px-2 py-1 rounded-sm mb-2 inline-block"><?= e($featured[0]['cat_name']) ?></span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-5">
+<span class="bg-primary text-white text-[11px] font-bold px-2 py-0.5 rounded w-fit mb-2"><?= e($featured[0]['cat_name']) ?></span>
 <h2 class="text-headline-lg-mobile font-headline-lg-mobile text-white leading-tight"><?= e($featured[0]['title']) ?></h2>
+<div class="flex items-center gap-3 mt-3 text-white/80 text-[12px]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> <?= timeAgo($featured[0]['published_at']) ?></span>
+<button class="flex items-center gap-1 share-btn text-white/80" data-url="<?= url('article', $featured[0]['slug']) ?>"><span class="material-symbols-outlined text-sm">share</span></button>
 </div>
 </div>
-<div class="py-3 flex items-center justify-between border-b border-border-subtle">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-sm text-primary">schedule</span>
-<span class="text-caption text-text-muted"><?= timeAgo($featured[0]['published_at']) ?></span>
-</div>
-<div class="flex items-center gap-2">
-<button class="bookmark-btn" data-slug="<?= e($featured[0]['slug']) ?>" data-title="<?= e($featured[0]['title']) ?>" data-image="<?= getImageUrl($featured[0]['image'], null, 'small') ?>" data-cat="<?= e($featured[0]['cat_name']) ?>" data-time="<?= timeAgo($featured[0]['published_at']) ?>">
-<span class="material-symbols-outlined bookmark-icon text-on-surface-variant">bookmark</span>
-</button>
-<button class="material-symbols-outlined text-on-surface-variant share-btn" data-url="<?= url('article', $featured[0]['slug']) ?>">share</button>
-</div>
-</div>
+</a>
 </article>
 </section>
 <?php endif; ?>
 
-<!-- Fresh Update (ताजा अपडेट) Horizontal Scroller -->
-<section class="mt-stack-lg bg-surface-container-low py-6">
-<div class="px-margin-mobile flex justify-between items-center mb-4">
-<h3 class="text-headline-md font-headline-md border-l-4 border-primary pl-3">ताजा अपडेट</h3>
-<a class="text-label-caps font-label-caps text-secondary uppercase" href="<?= url('search') ?>">थप हेर्नुहोस्</a>
-</div>
-<div class="flex gap-4 overflow-x-auto px-margin-mobile no-scrollbar snap-x">
-<?php foreach ($latest as $upd): ?>
-<div class="min-w-[280px] bg-background p-4 rounded-lg shadow-sm border border-border-subtle snap-start">
-<a href="<?= url('article', $upd['slug']) ?>" class="no-underline">
-<span class="text-label-caps font-label-caps text-primary mb-1 block"><?= e($upd['cat_name']) ?></span>
-<h4 class="text-body-lg font-bold leading-snug line-clamp-2 text-on-surface"><?= e($upd['title']) ?></h4>
-<p class="text-caption text-text-muted mt-2"><?= timeAgo($upd['published_at']) ?></p>
-</a>
-<div class="flex justify-end mt-2">
-<button class="bookmark-btn" data-slug="<?= e($upd['slug']) ?>" data-title="<?= e($upd['title']) ?>" data-image="<?= getImageUrl($upd['image'], null, 'small') ?>" data-cat="<?= e($upd['cat_name']) ?>" data-time="<?= timeAgo($upd['published_at']) ?>">
-<span class="material-symbols-outlined bookmark-icon text-[18px] text-on-surface-variant">bookmark</span>
-</button>
-</div>
-</div>
-<?php endforeach; ?>
-</div>
-</section>
+<!-- High Density Stacked Feed -->
+<section class="mt-6 px-4 space-y-6">
 
-<!-- Vertical News List -->
-<section class="px-margin-mobile mt-stack-lg">
-<div class="space-y-6">
 <?php if (isset($featured[1])): ?>
-<div class="border-b border-border-subtle pb-6">
-<div class="mb-3">
-<img class="w-full h-48 object-cover rounded-lg mb-3" src="<?= getImageUrl($featured[1]['image'], null, 'large') ?>" alt="<?= e($featured[1]['title']) ?>" loading="lazy">
-<div class="flex items-start justify-between gap-2">
-<div>
-<span class="text-label-caps font-label-caps text-primary border border-primary px-2 py-0.5 rounded-full"><?= e($featured[1]['cat_name']) ?></span>
-<h3 class="text-headline-md font-headline-md mt-2"><?= e($featured[1]['title']) ?></h3>
+<!-- Story Card 1 (full width image) -->
+<article class="flex flex-col gap-3 pb-6 border-b border-border-subtle">
+<a href="<?= url('article', $featured[1]['slug']) ?>" class="no-underline">
+<div class="aspect-video overflow-hidden rounded-lg">
+<img class="w-full h-full object-cover" src="<?= getImageUrl($featured[1]['image'], null, 'large') ?>" alt="<?= e($featured[1]['title']) ?>" loading="lazy">
 </div>
-<button class="bookmark-btn shrink-0 mt-1" data-slug="<?= e($featured[1]['slug']) ?>" data-title="<?= e($featured[1]['title']) ?>" data-image="<?= getImageUrl($featured[1]['image'], null, 'small') ?>" data-cat="<?= e($featured[1]['cat_name']) ?>" data-time="<?= timeAgo($featured[1]['published_at']) ?>">
-<span class="material-symbols-outlined bookmark-icon text-on-surface-variant">bookmark</span>
+<div>
+<span class="text-primary font-bold text-[13px] uppercase tracking-wide"><?= e($featured[1]['cat_name']) ?></span>
+<h3 class="text-[20px] font-bold leading-tight mt-1 hover:text-primary transition-colors text-on-surface"><?= e($featured[1]['title']) ?></h3>
+<p class="text-on-surface-variant text-body-md mt-2 line-clamp-3"><?= e($featured[1]['excerpt']) ?></p>
+<div class="flex items-center gap-4 mt-3 text-text-muted text-[12px]">
+<span class="font-medium"><?= timeAgo($featured[1]['published_at']) ?></span>
+<button class="bookmark-btn" data-slug="<?= e($featured[1]['slug']) ?>" data-title="<?= e($featured[1]['title']) ?>" data-image="<?= getImageUrl($featured[1]['image'], null, 'small') ?>" data-cat="<?= e($featured[1]['cat_name']) ?>" data-time="<?= timeAgo($featured[1]['published_at']) ?>">
+<span class="material-symbols-outlined bookmark-icon text-lg">bookmark</span>
 </button>
 </div>
-<p class="text-body-md text-on-surface-variant mt-2 line-clamp-3"><?= e($featured[1]['excerpt']) ?></p>
 </div>
-</div>
-<?php endif; ?>
-<!-- Ad Banner -->
-<div class="w-full bg-surface-dim py-8 px-4 flex flex-col items-center justify-center text-center rounded-lg border border-outline-variant">
-<span class="text-label-caps font-label-caps opacity-50 mb-2">Advertisement</span>
-<?= displayAdvertisement('mobile_inline', 'banner') ?>
-</div>
-<!-- Mid-size Story Stack -->
-<div class="grid grid-cols-1 gap-4">
-<?php foreach (array_slice($latest, 0, 4) as $i => $art): ?>
-<a href="<?= url('article', $art['slug']) ?>" class="flex gap-4 items-start border-b border-border-subtle pb-4 no-underline group">
-<div class="flex-1">
-<span class="text-label-caps font-label-caps text-<?= $i % 2 === 0 ? 'secondary' : 'primary' ?>"><?= e($art['cat_name']) ?></span>
-<h4 class="font-bold text-body-lg leading-tight mt-1 text-on-surface group-hover:text-primary transition-colors"><?= e($art['title']) ?></h4>
-</div>
-<img class="w-24 h-24 object-cover rounded-md flex-shrink-0" src="<?= getImageUrl($art['image'], null, 'small') ?>" alt="<?= e($art['title']) ?>" loading="lazy">
 </a>
+</article>
+<?php endif; ?>
+
+<!-- Fresh Update Slider -->
+<div class="bg-surface-container-low -mx-4 px-4 py-6 border-y border-border-subtle">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-xl font-bold border-l-4 border-primary pl-3">ताजा अपडेट</h3>
+<a class="text-primary text-[13px] font-bold" href="<?= url('search') ?>">थप हेर्नुहोस्</a>
+</div>
+<div class="flex gap-3 overflow-x-auto hide-scrollbar">
+<?php foreach ($latest as $upd): ?>
+<div class="min-w-[240px] bg-white p-4 rounded-lg shadow-sm border border-border-subtle">
+<span class="text-[11px] font-bold text-primary uppercase"><?= e($upd['cat_name']) ?></span>
+<h4 class="font-bold text-body-lg mt-1 line-clamp-2 text-on-surface"><?= e($upd['title']) ?></h4>
+<p class="text-[12px] text-text-muted mt-3"><?= timeAgo($upd['published_at']) ?></p>
+</div>
 <?php endforeach; ?>
 </div>
 </div>
+
+<!-- Inline Ad -->
+<div class="py-4 flex justify-center border-b border-border-subtle">
+<div class="w-full rounded border border-border-subtle bg-surface-container-low flex items-center justify-center min-h-[80px]">
+<?= displayAdvertisement('mobile_mid', 'banner') ?>
+</div>
+</div>
+
+<!-- Compact Side-by-Side Stories -->
+<?php $side_arts = array_slice($latest, 0, 4); ?>
+<?php foreach ($side_arts as $i => $art): ?>
+<article class="flex gap-4 pb-6 border-b border-border-subtle">
+<a href="<?= url('article', $art['slug']) ?>" class="flex gap-4 w-full no-underline group">
+<div class="flex-1">
+<span class="<?= $i % 2 === 0 ? 'text-secondary' : 'text-primary' ?> font-bold text-[12px] uppercase"><?= e($art['cat_name']) ?></span>
+<h3 class="font-bold text-body-lg leading-tight mt-1 text-on-surface group-hover:text-primary transition-colors"><?= e($art['title']) ?></h3>
+<p class="text-[12px] text-text-muted mt-2"><?= timeAgo($art['published_at']) ?></p>
+</div>
+<div class="w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
+<img class="w-full h-full object-cover" src="<?= getImageUrl($art['image'], null, 'small') ?>" alt="<?= e($art['title']) ?>" loading="lazy">
+</div>
+</a>
+</article>
+<?php endforeach; ?>
+
 </section>
 
-<!-- Reels / Video Section -->
+<!-- Reels Section (Dark Style) -->
 <?php
 $video_cat = null;
 foreach ($cats as $cat) {
@@ -375,19 +414,22 @@ if ($video_cat):
     $video_arts = getArticlesByCategory($video_cat['id'], 5);
     if (!empty($video_arts)):
 ?>
-<section class="mt-stack-lg bg-on-background py-8">
-<div class="px-margin-mobile flex items-center justify-between mb-4">
+<section class="mt-8 bg-zinc-950 py-8">
+<div class="px-4 flex items-center justify-between mb-5">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-white">play_circle</span>
-<h3 class="text-headline-md font-headline-md text-white"><?= e($video_cat['name']) ?> रिल्स्</h3>
+<h3 class="text-xl font-bold text-white"><?= e($video_cat['name']) ?> स्टोरी</h3>
 </div>
+<a class="text-white/60 text-xs font-bold uppercase" href="<?= url('category', $video_cat['slug']) ?>">View All</a>
 </div>
-<div class="flex gap-3 overflow-x-auto px-margin-mobile no-scrollbar">
+<div class="flex gap-3 overflow-x-auto px-4 hide-scrollbar">
 <?php foreach ($video_arts as $va): ?>
-<a href="<?= url('article', $va['slug']) ?>" class="relative min-w-[140px] aspect-[9/16] rounded-xl overflow-hidden bg-surface-container-highest no-underline">
+<a href="<?= url('article', $va['slug']) ?>" class="relative min-w-[160px] aspect-[9/16] rounded-xl overflow-hidden shadow-2xl no-underline">
 <img class="w-full h-full object-cover" src="<?= getImageUrl($va['image'], null, 'medium') ?>" alt="<?= e($va['title']) ?>" loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-<p class="absolute bottom-2 left-2 text-white text-caption font-bold leading-tight line-clamp-2"><?= e($va['title']) ?></p>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3">
+<p class="text-white text-[13px] font-bold leading-snug line-clamp-2"><?= e($va['title']) ?></p>
+</div>
 </a>
 <?php endforeach; ?>
 </div>
@@ -403,21 +445,21 @@ foreach ($cats as $cat) {
     if (stripos($cat['name'], 'विश्व') !== false || stripos($cat['slug'], 'world') !== false || stripos($cat['slug'], 'international') !== false) $intl_cat = $cat;
 }
 ?>
-<section class="mt-stack-lg px-margin-mobile pb-10">
+<section class="mt-8 px-4 pb-12 space-y-10">
+
 <?php if ($sports_cat): $sports_arts = getArticlesByCategory($sports_cat['id'], 4); if (!empty($sports_arts)): ?>
-<div class="mb-10">
-<div class="flex items-center justify-between border-b-2 border-secondary pb-1 mb-4">
-<h3 class="text-headline-md font-headline-md text-secondary"><?= e($sports_cat['name']) ?></h3>
+<div>
+<div class="flex items-center justify-between border-b-2 border-secondary pb-1.5 mb-5">
+<h3 class="text-xl font-bold text-secondary"><?= e($sports_cat['name']) ?></h3>
 <span class="material-symbols-outlined text-secondary">sports_soccer</span>
 </div>
-<div class="space-y-4">
+<div class="space-y-5">
 <?php foreach ($sports_arts as $sa): ?>
-<a href="<?= url('article', $sa['slug']) ?>" class="flex gap-4 no-underline group">
-<img class="w-24 h-24 object-cover rounded-lg" src="<?= getImageUrl($sa['image'], null, 'small') ?>" alt="<?= e($sa['title']) ?>" loading="lazy">
-<div class="flex-1">
-<h4 class="font-bold text-body-md leading-tight text-on-surface group-hover:text-primary transition-colors"><?= e($sa['title']) ?></h4>
-<span class="text-caption text-text-muted"><?= timeAgo($sa['published_at']) ?></span>
+<a href="<?= url('article', $sa['slug']) ?>" class="flex gap-4 items-center no-underline group">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="<?= getImageUrl($sa['image'], null, 'small') ?>" alt="<?= e($sa['title']) ?>" loading="lazy">
 </div>
+<h4 class="font-bold text-[17px] leading-tight text-on-surface group-hover:text-primary transition-colors"><?= e($sa['title']) ?></h4>
 </a>
 <?php endforeach; ?>
 </div>
@@ -425,15 +467,17 @@ foreach ($cats as $cat) {
 <?php endif; endif; ?>
 
 <?php if ($intl_cat): $intl_arts = getArticlesByCategory($intl_cat['id'], 4); if (!empty($intl_arts)): ?>
-<div class="mb-10">
-<div class="flex items-center justify-between border-b-2 border-primary pb-1 mb-4">
-<h3 class="text-headline-md font-headline-md text-primary"><?= e($intl_cat['name']) ?></h3>
+<div>
+<div class="flex items-center justify-between border-b-2 border-primary pb-1.5 mb-5">
+<h3 class="text-xl font-bold text-primary"><?= e($intl_cat['name']) ?></h3>
 <span class="material-symbols-outlined text-primary">public</span>
 </div>
-<a href="<?= url('article', $intl_arts[0]['slug']) ?>" class="bg-surface-container p-4 rounded-xl block no-underline group">
-<img class="w-full h-40 object-cover rounded-lg mb-3" src="<?= getImageUrl($intl_arts[0]['image'], null, 'medium') ?>" alt="<?= e($intl_arts[0]['title']) ?>" loading="lazy">
-<h4 class="text-body-lg font-bold text-on-surface group-hover:text-primary transition-colors"><?= e($intl_arts[0]['title']) ?></h4>
-<p class="text-caption text-on-surface-variant mt-2 line-clamp-2"><?= e($intl_arts[0]['excerpt']) ?></p>
+<a href="<?= url('article', $intl_arts[0]['slug']) ?>" class="bg-surface-alt rounded-xl overflow-hidden border border-border-subtle block no-underline group">
+<img class="w-full h-48 object-cover" src="<?= getImageUrl($intl_arts[0]['image'], null, 'medium') ?>" alt="<?= e($intl_arts[0]['title']) ?>" loading="lazy">
+<div class="p-4">
+<h4 class="text-lg font-bold leading-tight text-on-surface group-hover:text-primary transition-colors"><?= e($intl_arts[0]['title']) ?></h4>
+<p class="text-[14px] text-on-surface-variant mt-2 line-clamp-2"><?= e($intl_arts[0]['excerpt']) ?></p>
+</div>
 </a>
 </div>
 <?php endif; endif; ?>

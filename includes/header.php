@@ -176,6 +176,9 @@ tailwind.config = {
 ::-webkit-scrollbar-thumb { background: #a30019; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.ok-header-shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 .reading-progress {
     position: fixed;
     top: 0; left: 0;
@@ -227,7 +230,7 @@ body.is-article .reading-progress { display: block; }
 /* Mobile bottom nav safe area */
 body { padding-bottom: 0; }
 @media (max-width: 768px) {
-    body { padding-bottom: 64px; }
+    body { padding-bottom: 0; }
 }
 </style>
 </head>
@@ -272,20 +275,26 @@ body { padding-bottom: 0; }
 </header>
 
 <!-- Sticky Navigation Bar -->
-<nav class="sticky top-0 z-50 bg-background border-b border-border-subtle shadow-sm">
+<nav class="sticky top-0 z-50 bg-white md:bg-background border-b border-border-subtle ok-header-shadow md:shadow-sm">
 <div class="max-w-7xl mx-auto px-margin-mobile">
-<!-- Mobile header row (menu + logo + search + person) -->
-<div class="flex md:hidden items-center justify-between h-14">
+<!-- Mobile header row (Onlinekhabar style) -->
+<div class="flex md:hidden items-center justify-between px-margin-mobile h-[60px] max-w-7xl mx-auto">
 <div class="flex items-center gap-4">
-<button class="material-symbols-outlined text-primary text-[28px] active:scale-95 transition-transform" id="navToggle">menu</button>
+<button class="text-on-surface hover:text-primary transition-colors" id="navToggle">
+<span class="material-symbols-outlined text-[32px]">menu</span>
+</button>
 <a href="<?= SITE_URL ?>/">
-<img src="<?= SITE_URL ?>/assets/images/gt-logo.png" alt="<?= e(BRAND_NAME) ?>" class="h-8 w-auto">
+<img src="<?= SITE_URL ?>/assets/images/gt-logo.png" alt="<?= e(BRAND_NAME) ?>" class="h-10 w-auto object-contain">
 </a>
 </div>
-<div class="flex items-center gap-4">
-<a href="<?= url('search') ?>" class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant p-1 rounded-full transition-colors">search</a>
-<a href="<?= SITE_URL ?>/admin/login.php" class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant p-1 rounded-full transition-colors">person</a>
+<div class="flex items-center gap-5">
+<a href="<?= url('search') ?>" class="material-symbols-outlined text-[28px] text-on-surface-variant">search</a>
+<a href="<?= SITE_URL ?>/admin/login.php" class="material-symbols-outlined text-[28px] text-on-surface-variant">account_circle</a>
 </div>
+</div>
+<!-- Mobile date ticker -->
+<div class="md:hidden bg-surface-alt py-1.5 px-4 text-center border-b border-border-subtle">
+<span class="text-[12px] font-medium text-text-muted"><?= $nepali_date['day'] ?>, <?= $nepali_date['bs'] ?></span>
 </div>
 <!-- Desktop nav row + Mobile nav drawer combined -->
 <div class="flex items-center justify-between relative">
