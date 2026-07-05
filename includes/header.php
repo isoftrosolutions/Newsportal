@@ -179,8 +179,8 @@ tailwind.config = {
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .ok-header-shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-.header-ad-wrap .advertisement img { width: auto; max-width: 100%; height: auto; }
-.header-ad-wrap .advertisement { background: transparent; border: none; }
+.header-ad-wrap .advertisement img { width: auto; max-width: 100%; height: auto; margin: 0 auto; }
+.header-ad-wrap .advertisement { background: transparent; border: none; display: inline-block; }
 .reading-progress {
     position: fixed;
     top: 0; left: 0;
