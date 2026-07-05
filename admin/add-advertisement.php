@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message_type = 'error';
     } else {
         if (createAdvertisement($data)) {
+            logActivity('create_advertisement', 'advertisement', 0, 'विज्ञापन थपियो: ' . $data['title']);
             header('Location: advertisements.php?created=1');
             exit;
         } else {

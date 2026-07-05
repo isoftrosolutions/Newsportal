@@ -102,6 +102,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
       </li>
 
       <li class="nav-item">
+        <a href="activity-logs.php" class="nav-link <?= $current_page === 'activity-logs.php' ? 'active' : '' ?>">
+          <i class="nav-icon fa fa-clock-rotate"></i>
+          <span class="nav-text">गतिविधि लग</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
         <div class="nav-link-wrapper">
           <a href="advertisements.php" class="nav-link <?= in_array($current_page, ['advertisements.php','add-advertisement.php','edit-advertisement.php']) ? 'active' : '' ?>">
             <i class="nav-icon fa fa-ad"></i>

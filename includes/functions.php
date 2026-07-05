@@ -296,6 +296,33 @@ function deleteAdvertisement($id) {
     return $stmt->execute();
 }
 
+function logActivity($action, $entity_type = null, $entity_id = null, $description = '') {
+    $db = getDB();
+    $db->query("CREATE TABLE IF NOT EXISTS activity_logs (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        admin_id INT NOT NULL,
+        admin_name VARCHAR(100) DEFAULT NULL,
+        action VARCHAR(50) NOT NULL,
+        entity_type VARCHAR(50) DEFAULT NULL,
+        entity_id INT DEFAULT NULL,
+        description VARCHAR(500) DEFAULT NULL,
+        ip_address VARCHAR(45) DEFAULT NULL,
+        user_agent TEXT DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        KEY admin_id (admin_id),
+        KEY action (action),
+        KEY created_at (created_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    $stmt = $db->prepare("INSERT INTO activity_logs (admin_id, admin_name, action, entity_type, entity_id, description, ip_address, user_agent) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $admin_id   = $_SESSION['admin_id'] ?? 0;
+    $admin_name = $_SESSION['admin_name'] ?? 'Unknown';
+    $ip         = $_SERVER['REMOTE_ADDR'] ?? '';
+    $ua         = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    $stmt->bind_param("ississss", $admin_id, $admin_name, $action, $entity_type, $entity_id, $description, $ip, $ua);
+    return $stmt->execute();
+}
+
 function incrementAdClick($id) {
     $db = getDB();
     $stmt = $db->prepare("UPDATE advertisements SET click_count = click_count + 1 WHERE id = ?");

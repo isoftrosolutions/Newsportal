@@ -11,6 +11,7 @@ if (!$ad) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (deleteAdvertisement($id)) {
+        logActivity('delete_advertisement', 'advertisement', $id, 'विज्ञापन हटाइयो: ' . ($ad['title'] ?? ''));
         header('Location: advertisements.php?deleted=1');
         exit;
     } else {

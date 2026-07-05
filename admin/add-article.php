@@ -48,11 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ssssisssii", $title, $slug, $content, $excerpt, $category, $image, $author, $status, $is_featured, $is_breaking);
 
         if ($stmt->execute()) {
+            $article_id = $db->insert_id;
             if ($is_breaking) {
                 $break_text = mb_substr($title, 0, 150);
                 $db->prepare("INSERT INTO breaking_news (text) VALUES (?)")->bind_param("s", $break_text);
                 $db->prepare("INSERT INTO breaking_news (text) VALUES (?)")->execute();
             }
+            logActivity('create_article', 'article', $article_id, 'समाचार थपियो: ' . mb_substr($title, 0, 100));
             $success = true;
         } else {
             $errors[] = 'Database error: ' . $db->error;

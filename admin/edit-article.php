@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ssssissiii", $title, $content, $excerpt, $category, $image, $author, $status, $is_featured, $is_breaking, $id);
 
         if ($stmt->execute()) {
+            logActivity('update_article', 'article', $id, 'समाचार सम्पादन गरियो: ' . mb_substr($title, 0, 100));
             $success = true;
             $article = $db->query("SELECT * FROM articles WHERE id = $id")->fetch_assoc();
         } else {

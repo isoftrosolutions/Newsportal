@@ -9,11 +9,13 @@ $id = (int)($_GET['id'] ?? 0);
 if (!$id) { header('Location: articles.php'); exit; }
 
 $db = getDB();
+require_once dirname(__DIR__) . '/includes/functions.php';
 $article = $db->query("SELECT * FROM articles WHERE id = $id")->fetch_assoc();
 if ($article) {
     if ($article['image'] && file_exists(UPLOAD_PATH . $article['image'])) {
         unlink(UPLOAD_PATH . $article['image']);
     }
+    logActivity('delete_article', 'article', $id, 'समाचार हटाइयो: ' . mb_substr($article['title'], 0, 100));
     $db->query("DELETE FROM articles WHERE id = $id");
 }
 header('Location: articles.php?deleted=1');

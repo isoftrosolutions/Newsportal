@@ -22,8 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['admin_id']   = $user['id'];
             $_SESSION['admin_name'] = $user['full_name'];
+            logActivity('login', 'admin_user', $user['id'], 'लगइन गरे');
             header('Location: index.php'); exit;
         } else {
+            logActivity('login_failed', 'admin_user', 0, 'गलत लगइन प्रयास: ' . $username);
             $error = 'गलत प्रयोगकर्ता नाम वा पासवर्ड।';
         }
     } else {

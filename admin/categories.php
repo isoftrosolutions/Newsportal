@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt = $db->prepare("INSERT INTO categories (name, slug, color, sort_order) VALUES (?,?,?,?)");
             $stmt->bind_param("sssi", $name, $sl, $color, $order);
             $stmt->execute();
+            logActivity('create_category', 'category', $db->insert_id, 'विभाग थपियो: ' . $name);
             $msg = 'success:विभाग सफलतापूर्वक थपियो।';
         }
     } elseif ($_POST['action'] === 'edit') {
@@ -32,11 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt = $db->prepare("UPDATE categories SET name=?,color=?,sort_order=? WHERE id=?");
             $stmt->bind_param("ssii", $name, $color, $order, $id);
             $stmt->execute();
+            logActivity('update_category', 'category', $id, 'विभाग सम्पादन: ' . $name);
             $msg = 'success:विभाग सफलतापूर्वक अपडेट भयो।';
         }
     } elseif ($_POST['action'] === 'delete') {
         $id = (int)$_POST['id'];
         if ($id) {
+            $cat = $db->query("SELECT name FROM categories WHERE id = $id")->fetch_assoc();
+            logActivity('delete_category', 'category', $id, 'विभाग हटाइयो: ' . ($cat['name'] ?? ''));
             $db->query("DELETE FROM categories WHERE id = $id");
             $msg = 'success:विभाग हटाइयो।';
         }

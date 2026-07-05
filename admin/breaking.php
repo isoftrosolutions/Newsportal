@@ -13,14 +13,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $db->prepare("INSERT INTO breaking_news (text) VALUES (?)");
             $stmt->bind_param("s", $text);
             $stmt->execute();
+            logActivity('create_breaking', 'breaking_news', $db->insert_id, 'ताजा समाचार थपियो: ' . mb_substr($text, 0, 100));
             $msg = 'success:ताजा समाचार थपियो।';
         }
     } elseif ($action === 'toggle') {
         $id = (int)$_POST['id'];
         $db->query("UPDATE breaking_news SET is_active = 1 - is_active WHERE id = $id");
+        logActivity('toggle_breaking', 'breaking_news', $id, 'ताजा समाचार अवस्था परिवर्तन');
         $msg = 'success:अवस्था परिवर्तन भयो।';
     } elseif ($action === 'delete') {
         $id = (int)$_POST['id'];
+        $log_item = $db->query("SELECT text FROM breaking_news WHERE id = $id")->fetch_assoc();
+        logActivity('delete_breaking', 'breaking_news', $id, 'ताजा समाचार हटाइयो: ' . ($log_item ? mb_substr($log_item['text'], 0, 100) : ''));
         $db->query("DELETE FROM breaking_news WHERE id = $id");
         $msg = 'success:हटाइयो।';
     }

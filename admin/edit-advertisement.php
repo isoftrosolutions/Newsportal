@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message_type = 'error';
     } else {
         if (updateAdvertisement($id, $data)) {
+            logActivity('update_advertisement', 'advertisement', $id, 'विज्ञापन सम्पादन: ' . $data['title']);
             $message = 'विज्ञापन सफलतापूर्वक अपडेट गरियो।';
             $message_type = 'success';
             $ad = getAdvertisementById($id); // Refresh data
