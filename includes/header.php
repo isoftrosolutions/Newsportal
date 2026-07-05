@@ -229,9 +229,6 @@ body.is-article .reading-progress { display: block; }
 }
 /* Mobile bottom nav safe area */
 body { padding-bottom: 0; }
-@media (max-width: 768px) {
-    body { padding-bottom: 0; }
-}
 </style>
 </head>
 <body class="bg-background text-on-surface font-body-md overflow-x-hidden <?= $body_class ?? '' ?>">
