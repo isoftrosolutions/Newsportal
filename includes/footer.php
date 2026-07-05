@@ -112,12 +112,12 @@ ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'r
 <span class="material-symbols-outlined">explore</span>
 <span class="text-[10px] font-medium">Explore</span>
 </a>
-<a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
+<a href="<?= SITE_URL ?>/search" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
 <span class="material-symbols-outlined">newspaper</span>
-<span class="text-[10px] font-medium">E-Paper</span>
+<span class="text-[10px] font-medium">Latest</span>
 </a>
-<a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
-<span class="material-symbols-outlined">bookmark</span>
+<a href="<?= SITE_URL ?>/saved" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline saved-nav-link">
+<span class="material-symbols-outlined" id="savedNavIcon">bookmark</span>
 <span class="text-[10px] font-medium">Saved</span>
 </a>
 </nav>

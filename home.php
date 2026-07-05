@@ -116,6 +116,9 @@ alt="<?= e($featured[0]['title']) ?>">
 <div class="flex items-center text-caption text-text-muted space-x-4">
 <span class="font-bold text-on-surface"><?= e($featured[0]['author']) ?></span>
 <span><?= timeAgo($featured[0]['published_at']) ?></span>
+<button class="bookmark-btn ml-auto" data-slug="<?= e($featured[0]['slug']) ?>" data-title="<?= e($featured[0]['title']) ?>" data-image="<?= getImageUrl($featured[0]['image'], null, 'small') ?>" data-cat="<?= e($featured[0]['cat_name']) ?>" data-time="<?= timeAgo($featured[0]['published_at']) ?>">
+<span class="material-symbols-outlined bookmark-icon text-[18px] text-on-surface-variant">bookmark</span>
+</button>
 </div>
 </div>
 </div>
@@ -284,7 +287,12 @@ alt="<?= e($featured[0]['title']) ?>">
 <span class="material-symbols-outlined text-sm text-primary">schedule</span>
 <span class="text-caption text-text-muted"><?= timeAgo($featured[0]['published_at']) ?></span>
 </div>
+<div class="flex items-center gap-2">
+<button class="bookmark-btn" data-slug="<?= e($featured[0]['slug']) ?>" data-title="<?= e($featured[0]['title']) ?>" data-image="<?= getImageUrl($featured[0]['image'], null, 'small') ?>" data-cat="<?= e($featured[0]['cat_name']) ?>" data-time="<?= timeAgo($featured[0]['published_at']) ?>">
+<span class="material-symbols-outlined bookmark-icon text-on-surface-variant">bookmark</span>
+</button>
 <button class="material-symbols-outlined text-on-surface-variant share-btn" data-url="<?= url('article', $featured[0]['slug']) ?>">share</button>
+</div>
 </div>
 </article>
 </section>
@@ -298,11 +306,18 @@ alt="<?= e($featured[0]['title']) ?>">
 </div>
 <div class="flex gap-4 overflow-x-auto px-margin-mobile no-scrollbar snap-x">
 <?php foreach ($latest as $upd): ?>
-<a href="<?= url('article', $upd['slug']) ?>" class="min-w-[280px] bg-background p-4 rounded-lg shadow-sm border border-border-subtle snap-start no-underline">
+<div class="min-w-[280px] bg-background p-4 rounded-lg shadow-sm border border-border-subtle snap-start">
+<a href="<?= url('article', $upd['slug']) ?>" class="no-underline">
 <span class="text-label-caps font-label-caps text-primary mb-1 block"><?= e($upd['cat_name']) ?></span>
 <h4 class="text-body-lg font-bold leading-snug line-clamp-2 text-on-surface"><?= e($upd['title']) ?></h4>
 <p class="text-caption text-text-muted mt-2"><?= timeAgo($upd['published_at']) ?></p>
 </a>
+<div class="flex justify-end mt-2">
+<button class="bookmark-btn" data-slug="<?= e($upd['slug']) ?>" data-title="<?= e($upd['title']) ?>" data-image="<?= getImageUrl($upd['image'], null, 'small') ?>" data-cat="<?= e($upd['cat_name']) ?>" data-time="<?= timeAgo($upd['published_at']) ?>">
+<span class="material-symbols-outlined bookmark-icon text-[18px] text-on-surface-variant">bookmark</span>
+</button>
+</div>
+</div>
 <?php endforeach; ?>
 </div>
 </section>
@@ -314,8 +329,15 @@ alt="<?= e($featured[0]['title']) ?>">
 <div class="border-b border-border-subtle pb-6">
 <div class="mb-3">
 <img class="w-full h-48 object-cover rounded-lg mb-3" src="<?= getImageUrl($featured[1]['image'], null, 'large') ?>" alt="<?= e($featured[1]['title']) ?>" loading="lazy">
+<div class="flex items-start justify-between gap-2">
+<div>
 <span class="text-label-caps font-label-caps text-primary border border-primary px-2 py-0.5 rounded-full"><?= e($featured[1]['cat_name']) ?></span>
 <h3 class="text-headline-md font-headline-md mt-2"><?= e($featured[1]['title']) ?></h3>
+</div>
+<button class="bookmark-btn shrink-0 mt-1" data-slug="<?= e($featured[1]['slug']) ?>" data-title="<?= e($featured[1]['title']) ?>" data-image="<?= getImageUrl($featured[1]['image'], null, 'small') ?>" data-cat="<?= e($featured[1]['cat_name']) ?>" data-time="<?= timeAgo($featured[1]['published_at']) ?>">
+<span class="material-symbols-outlined bookmark-icon text-on-surface-variant">bookmark</span>
+</button>
+</div>
 <p class="text-body-md text-on-surface-variant mt-2 line-clamp-3"><?= e($featured[1]['excerpt']) ?></p>
 </div>
 </div>

@@ -115,6 +115,51 @@ document.addEventListener('DOMContentLoaded', function () {
     lazyImages.forEach(function (img) { imgObserver.observe(img); });
   }
 
+  // Bookmark / Save functionality
+  function toggleSaved(slug, data) {
+    var saved = JSON.parse(localStorage.getItem('gtnews_saved') || '[]');
+    var idx = saved.findIndex(function(a) { return a.slug === slug; });
+    if (idx > -1) { saved.splice(idx, 1); }
+    else { saved.unshift(data); }
+    localStorage.setItem('gtnews_saved', JSON.stringify(saved));
+    return idx === -1;
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var slug = btn.dataset.slug;
+    if (!slug) return;
+    var saved = JSON.parse(localStorage.getItem('gtnews_saved') || '[]');
+    var isSaved = saved.some(function(a) { return a.slug === slug; });
+    var icon = btn.querySelector('.bookmark-icon');
+    if (icon) {
+      icon.style.fontVariationSettings = isSaved ? "'FILL' 1, 'wght' 400" : "'FILL' 0, 'wght' 400";
+    }
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var wasSaved = toggleSaved(slug, {
+        slug: slug,
+        title: btn.dataset.title || '',
+        image: btn.dataset.image || '',
+        cat_name: btn.dataset.cat || '',
+        time: btn.dataset.time || ''
+      });
+      var icon = btn.querySelector('.bookmark-icon');
+      if (icon) {
+        icon.style.fontVariationSettings = wasSaved ? "'FILL' 1, 'wght' 400" : "'FILL' 0, 'wght' 400";
+      }
+    });
+  });
+
+  // Update saved nav icon
+  (function() {
+    var saved = JSON.parse(localStorage.getItem('gtnews_saved') || '[]');
+    var navIcon = document.getElementById('savedNavIcon');
+    if (navIcon && saved.length > 0) {
+      navIcon.style.fontVariationSettings = "'FILL' 1";
+    }
+  })();
+
   // Advertisement click tracking
   window.trackAdClick = function(adId) {
     // Send tracking request asynchronously
