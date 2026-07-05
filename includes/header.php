@@ -179,6 +179,8 @@ tailwind.config = {
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .ok-header-shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.header-ad-wrap .advertisement img { width: auto; max-width: 100%; height: auto; }
+.header-ad-wrap .advertisement { background: transparent; border: none; }
 .reading-progress {
     position: fixed;
     top: 0; left: 0;
@@ -265,8 +267,11 @@ body { padding-bottom: 0; }
 <img src="<?= SITE_URL ?>/assets/images/gt-logo.png" alt="<?= e(BRAND_NAME) ?> - <?= e(SITE_NAME) ?>" class="h-12 md:h-20 w-auto object-contain">
 </a>
 </div>
-<div class="hidden md:block w-[728px] h-[90px] bg-surface-container-low border border-border-subtle flex items-center justify-center relative overflow-hidden">
-<?= displayAdvertisement('header', 'banner') ?>
+<div class="hidden md:flex items-center justify-center w-full max-w-[728px] min-h-[90px] bg-surface-container-low border border-border-subtle relative overflow-hidden">
+<?php
+$ad_html = displayAdvertisement('header', 'banner');
+echo '<div class="header-ad-wrap flex items-center justify-center w-full">' . $ad_html . '</div>';
+?>
 </div>
 </div>
 </header>
