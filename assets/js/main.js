@@ -70,6 +70,21 @@ document.addEventListener('DOMContentLoaded', function () {
     updateProgress();
   }
 
+  // Toggle password visibility
+  document.querySelectorAll('.toggle-password').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var input = this.parentNode.querySelector('input');
+      if (!input) return;
+      var isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      var icon = this.querySelector('i');
+      if (icon) {
+        icon.className = isPassword ? 'fa fa-eye-slash' : 'fa fa-eye';
+      }
+      this.setAttribute('aria-label', isPassword ? 'पासवर्ड लुकाउनुहोस्' : 'पासवर्ड देखाउनुहोस्');
+    });
+  });
+
   // Share buttons
   document.querySelectorAll('.share-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {

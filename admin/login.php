@@ -74,7 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div class="form-group">
         <label>पासवर्ड</label>
-        <input type="password" name="password" required placeholder="••••••••">
+        <div class="password-wrap">
+          <input type="password" name="password" required placeholder="••••••••">
+          <button type="button" class="toggle-password" aria-label="पासवर्ड देखाउनुहोस्">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
       </div>
       <button type="submit" class="btn-login">
         लगइन गर्नुहोस् &nbsp;<i class="fa fa-arrow-right"></i>

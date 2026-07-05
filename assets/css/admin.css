@@ -1204,6 +1204,33 @@ body.login-page {
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input {
+  padding-right: 44px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 8px 10px;
+  font-size: 18px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.toggle-password:hover {
+  color: var(--primary-color);
+}
+
 .btn-login {
   width: 100%;
   padding: 14px;
