@@ -143,7 +143,8 @@ tailwind.config = {
         "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
         "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
         "caption": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-        "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+        "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
       }
     }
   }
@@ -158,7 +159,7 @@ tailwind.config = {
 .scrolling-ticker {
     display: flex;
     white-space: nowrap;
-    animation: scroll 30s linear infinite;
+    animation: scroll 60s linear infinite;
 }
 .scrolling-ticker:hover { animation-play-state: paused; }
 @keyframes scroll {
@@ -194,6 +195,40 @@ body.is-article .reading-progress { display: block; }
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
 }
+/* Mobile nav */
+#navList {
+    display: flex;
+    align-items: center;
+}
+@media (max-width: 768px) {
+    #navList {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fcf9f8;
+        border-bottom: 1px solid #E2E2E2;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 4px 0;
+        z-index: 50;
+    }
+    #navList.open {
+        display: flex;
+    }
+    #navList a {
+        width: 100%;
+        padding: 12px 16px;
+        border-bottom: 1px solid #E2E2E2;
+        text-align: left;
+    }
+}
+/* Mobile bottom nav safe area */
+body { padding-bottom: 0; }
+@media (max-width: 768px) {
+    body { padding-bottom: 64px; }
+}
 </style>
 </head>
 <body class="bg-background text-on-surface font-body-md overflow-x-hidden <?= $body_class ?? '' ?>">
@@ -223,7 +258,7 @@ body.is-article .reading-progress { display: block; }
 </div>
 
 <!-- Main Header -->
-<header class="bg-background py-stack-md border-b border-border-subtle">
+<header class="bg-background py-stack-md border-b border-border-subtle hidden md:block">
 <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-stack-md">
 <div class="flex-shrink-0">
 <a href="<?= SITE_URL ?>/">
@@ -238,8 +273,23 @@ body.is-article .reading-progress { display: block; }
 
 <!-- Sticky Navigation Bar -->
 <nav class="sticky top-0 z-50 bg-background border-b border-border-subtle shadow-sm">
-<div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-<div class="flex items-center overflow-x-auto no-scrollbar scroll-smooth">
+<div class="max-w-7xl mx-auto px-margin-mobile">
+<!-- Mobile header row (menu + logo + search + person) -->
+<div class="flex md:hidden items-center justify-between h-14">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary text-[28px] active:scale-95 transition-transform" id="navToggle">menu</button>
+<a href="<?= SITE_URL ?>/">
+<img src="<?= SITE_URL ?>/assets/images/gt-logo.png" alt="<?= e(BRAND_NAME) ?>" class="h-8 w-auto">
+</a>
+</div>
+<div class="flex items-center gap-4">
+<a href="<?= url('search') ?>" class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant p-1 rounded-full transition-colors">search</a>
+<a href="<?= SITE_URL ?>/admin/login.php" class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant p-1 rounded-full transition-colors">person</a>
+</div>
+</div>
+<!-- Desktop nav row + Mobile nav drawer combined -->
+<div class="flex items-center justify-between relative">
+<div id="navList" class="overflow-x-auto no-scrollbar scroll-smooth">
 <a class="px-4 py-4 text-primary border-b-2 border-primary font-bold whitespace-nowrap font-label-caps text-label-caps" href="<?= SITE_URL ?>/">गृहपृष्ठ</a>
 <?php foreach ($categories as $cat): ?>
 <a class="px-4 py-4 text-on-surface-variant hover:text-primary transition-colors font-medium whitespace-nowrap font-label-caps text-label-caps <?= ($current_route === 'category' && $current_cat === $cat['slug']) ? 'text-primary border-b-2 border-primary' : '' ?>" href="<?= url('category', $cat['slug']) ?>">
@@ -247,13 +297,11 @@ body.is-article .reading-progress { display: block; }
 </a>
 <?php endforeach; ?>
 </div>
-<div class="flex items-center space-x-2 pl-4 border-l border-border-subtle py-2">
+<div class="hidden md:flex items-center space-x-2 pl-4 border-l border-border-subtle py-2">
 <a href="<?= url('search') ?>" class="p-2 hover:bg-surface-variant rounded-full transition-colors">
 <span class="material-symbols-outlined">search</span>
 </a>
-<button class="p-2 hover:bg-surface-variant rounded-full transition-colors md:hidden" id="navToggle">
-<span class="material-symbols-outlined">menu</span>
-</button>
+</div>
 </div>
 </div>
 </nav>
@@ -262,7 +310,7 @@ body.is-article .reading-progress { display: block; }
 <?php if (!empty($breaking)): ?>
 <div class="bg-surface-alt py-2 border-b border-border-subtle overflow-hidden">
 <div class="max-w-7xl mx-auto px-4 flex items-center">
-<div class="bg-primary text-white px-3 py-1 font-bold text-label-caps mr-4 shrink-0 rounded-sm">ताजा अपडेट</div>
+<div class="bg-primary text-white px-3 py-1 font-bold text-label-caps mr-4 shrink-0 rounded-sm"><span class="hidden md:inline">ताजा अपडेट</span><span class="md:hidden">BREAKING</span></div>
 <div class="relative flex-1 overflow-hidden h-6">
 <div class="scrolling-ticker flex items-center space-x-12">
 <?php foreach ($breaking as $bn): ?>

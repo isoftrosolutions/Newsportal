@@ -90,6 +90,9 @@ $cats      = getCategories();
 
 <main class="max-w-7xl mx-auto px-4 py-stack-lg">
 
+<!-- ==================== DESKTOP LAYOUT (hidden on mobile) ==================== -->
+<div class="hidden md:block">
+
 <!-- Hero Section -->
 <?php if (!empty($featured)): ?>
 <section class="mb-stack-lg border-b border-border-subtle pb-stack-lg">
@@ -258,6 +261,163 @@ alt="<?= e($featured[0]['title']) ?>">
 <?php endforeach; ?>
 </div>
 <?php endif; ?>
+
+</div><!-- /desktop layout -->
+
+<!-- ==================== MOBILE LAYOUT (hidden on desktop) ==================== -->
+<div class="block md:hidden">
+
+<?php if (!empty($featured)): ?>
+<!-- Hero Section -->
+<section class="mt-2">
+<article class="group">
+<div class="aspect-video relative overflow-hidden rounded-lg bg-surface-container-high">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="<?= getImageUrl($featured[0]['image'], null, 'large') ?>" alt="<?= e($featured[0]['title']) ?>" loading="lazy">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 p-4">
+<span class="text-label-caps font-label-caps text-on-primary-container bg-primary-container px-2 py-1 rounded-sm mb-2 inline-block"><?= e($featured[0]['cat_name']) ?></span>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-white leading-tight"><?= e($featured[0]['title']) ?></h2>
+</div>
+</div>
+<div class="py-3 flex items-center justify-between border-b border-border-subtle">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span class="text-caption text-text-muted"><?= timeAgo($featured[0]['published_at']) ?></span>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant share-btn" data-url="<?= url('article', $featured[0]['slug']) ?>">share</button>
+</div>
+</article>
+</section>
+<?php endif; ?>
+
+<!-- Fresh Update (ताजा अपडेट) Horizontal Scroller -->
+<section class="mt-stack-lg bg-surface-container-low py-6">
+<div class="px-margin-mobile flex justify-between items-center mb-4">
+<h3 class="text-headline-md font-headline-md border-l-4 border-primary pl-3">ताजा अपडेट</h3>
+<a class="text-label-caps font-label-caps text-secondary uppercase" href="<?= url('search') ?>">थप हेर्नुहोस्</a>
+</div>
+<div class="flex gap-4 overflow-x-auto px-margin-mobile no-scrollbar snap-x">
+<?php foreach ($latest as $upd): ?>
+<a href="<?= url('article', $upd['slug']) ?>" class="min-w-[280px] bg-background p-4 rounded-lg shadow-sm border border-border-subtle snap-start no-underline">
+<span class="text-label-caps font-label-caps text-primary mb-1 block"><?= e($upd['cat_name']) ?></span>
+<h4 class="text-body-lg font-bold leading-snug line-clamp-2 text-on-surface"><?= e($upd['title']) ?></h4>
+<p class="text-caption text-text-muted mt-2"><?= timeAgo($upd['published_at']) ?></p>
+</a>
+<?php endforeach; ?>
+</div>
+</section>
+
+<!-- Vertical News List -->
+<section class="px-margin-mobile mt-stack-lg">
+<div class="space-y-6">
+<?php if (isset($featured[1])): ?>
+<div class="border-b border-border-subtle pb-6">
+<div class="mb-3">
+<img class="w-full h-48 object-cover rounded-lg mb-3" src="<?= getImageUrl($featured[1]['image'], null, 'large') ?>" alt="<?= e($featured[1]['title']) ?>" loading="lazy">
+<span class="text-label-caps font-label-caps text-primary border border-primary px-2 py-0.5 rounded-full"><?= e($featured[1]['cat_name']) ?></span>
+<h3 class="text-headline-md font-headline-md mt-2"><?= e($featured[1]['title']) ?></h3>
+<p class="text-body-md text-on-surface-variant mt-2 line-clamp-3"><?= e($featured[1]['excerpt']) ?></p>
+</div>
+</div>
+<?php endif; ?>
+<!-- Ad Banner -->
+<div class="w-full bg-surface-dim py-8 px-4 flex flex-col items-center justify-center text-center rounded-lg border border-outline-variant">
+<span class="text-label-caps font-label-caps opacity-50 mb-2">Advertisement</span>
+<?= displayAdvertisement('mobile_inline', 'banner') ?>
+</div>
+<!-- Mid-size Story Stack -->
+<div class="grid grid-cols-1 gap-4">
+<?php foreach (array_slice($latest, 0, 4) as $i => $art): ?>
+<a href="<?= url('article', $art['slug']) ?>" class="flex gap-4 items-start border-b border-border-subtle pb-4 no-underline group">
+<div class="flex-1">
+<span class="text-label-caps font-label-caps text-<?= $i % 2 === 0 ? 'secondary' : 'primary' ?>"><?= e($art['cat_name']) ?></span>
+<h4 class="font-bold text-body-lg leading-tight mt-1 text-on-surface group-hover:text-primary transition-colors"><?= e($art['title']) ?></h4>
+</div>
+<img class="w-24 h-24 object-cover rounded-md flex-shrink-0" src="<?= getImageUrl($art['image'], null, 'small') ?>" alt="<?= e($art['title']) ?>" loading="lazy">
+</a>
+<?php endforeach; ?>
+</div>
+</div>
+</section>
+
+<!-- Reels / Video Section -->
+<?php
+$video_cat = null;
+foreach ($cats as $cat) {
+    if (stripos($cat['name'], 'भिडियो') !== false || stripos($cat['slug'], 'video') !== false) {
+        $video_cat = $cat;
+        break;
+    }
+}
+if ($video_cat):
+    $video_arts = getArticlesByCategory($video_cat['id'], 5);
+    if (!empty($video_arts)):
+?>
+<section class="mt-stack-lg bg-on-background py-8">
+<div class="px-margin-mobile flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white">play_circle</span>
+<h3 class="text-headline-md font-headline-md text-white"><?= e($video_cat['name']) ?> रिल्स्</h3>
+</div>
+</div>
+<div class="flex gap-3 overflow-x-auto px-margin-mobile no-scrollbar">
+<?php foreach ($video_arts as $va): ?>
+<a href="<?= url('article', $va['slug']) ?>" class="relative min-w-[140px] aspect-[9/16] rounded-xl overflow-hidden bg-surface-container-highest no-underline">
+<img class="w-full h-full object-cover" src="<?= getImageUrl($va['image'], null, 'medium') ?>" alt="<?= e($va['title']) ?>" loading="lazy">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<p class="absolute bottom-2 left-2 text-white text-caption font-bold leading-tight line-clamp-2"><?= e($va['title']) ?></p>
+</a>
+<?php endforeach; ?>
+</div>
+</section>
+<?php endif; endif; ?>
+
+<!-- Category Sections: Sports & International -->
+<?php
+$sports_cat = null;
+$intl_cat = null;
+foreach ($cats as $cat) {
+    if (stripos($cat['name'], 'खेलकुद') !== false || stripos($cat['slug'], 'sports') !== false) $sports_cat = $cat;
+    if (stripos($cat['name'], 'विश्व') !== false || stripos($cat['slug'], 'world') !== false || stripos($cat['slug'], 'international') !== false) $intl_cat = $cat;
+}
+?>
+<section class="mt-stack-lg px-margin-mobile pb-10">
+<?php if ($sports_cat): $sports_arts = getArticlesByCategory($sports_cat['id'], 4); if (!empty($sports_arts)): ?>
+<div class="mb-10">
+<div class="flex items-center justify-between border-b-2 border-secondary pb-1 mb-4">
+<h3 class="text-headline-md font-headline-md text-secondary"><?= e($sports_cat['name']) ?></h3>
+<span class="material-symbols-outlined text-secondary">sports_soccer</span>
+</div>
+<div class="space-y-4">
+<?php foreach ($sports_arts as $sa): ?>
+<a href="<?= url('article', $sa['slug']) ?>" class="flex gap-4 no-underline group">
+<img class="w-24 h-24 object-cover rounded-lg" src="<?= getImageUrl($sa['image'], null, 'small') ?>" alt="<?= e($sa['title']) ?>" loading="lazy">
+<div class="flex-1">
+<h4 class="font-bold text-body-md leading-tight text-on-surface group-hover:text-primary transition-colors"><?= e($sa['title']) ?></h4>
+<span class="text-caption text-text-muted"><?= timeAgo($sa['published_at']) ?></span>
+</div>
+</a>
+<?php endforeach; ?>
+</div>
+</div>
+<?php endif; endif; ?>
+
+<?php if ($intl_cat): $intl_arts = getArticlesByCategory($intl_cat['id'], 4); if (!empty($intl_arts)): ?>
+<div class="mb-10">
+<div class="flex items-center justify-between border-b-2 border-primary pb-1 mb-4">
+<h3 class="text-headline-md font-headline-md text-primary"><?= e($intl_cat['name']) ?></h3>
+<span class="material-symbols-outlined text-primary">public</span>
+</div>
+<a href="<?= url('article', $intl_arts[0]['slug']) ?>" class="bg-surface-container p-4 rounded-xl block no-underline group">
+<img class="w-full h-40 object-cover rounded-lg mb-3" src="<?= getImageUrl($intl_arts[0]['image'], null, 'medium') ?>" alt="<?= e($intl_arts[0]['title']) ?>" loading="lazy">
+<h4 class="text-body-lg font-bold text-on-surface group-hover:text-primary transition-colors"><?= e($intl_arts[0]['title']) ?></h4>
+<p class="text-caption text-on-surface-variant mt-2 line-clamp-2"><?= e($intl_arts[0]['excerpt']) ?></p>
+</a>
+</div>
+<?php endif; endif; ?>
+</section>
+
+</div><!-- /mobile layout -->
 
 </main>
 

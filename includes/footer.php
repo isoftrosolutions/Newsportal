@@ -1,7 +1,7 @@
 <?php $categories_footer = getCategories(); ?>
 
 <!-- Back to top FAB -->
-<button class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center translate-y-24 opacity-0 transition-all duration-300 z-50" id="back-to-top">
+<button class="fixed bottom-20 md:bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center translate-y-24 opacity-0 transition-all duration-300 z-50" id="back-to-top">
 <span class="material-symbols-outlined">arrow_upward</span>
 </button>
 
@@ -101,5 +101,25 @@ ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'r
 </script>
 
 <script src="<?= SITE_URL ?>/assets/js/main.js"></script>
+
+<!-- Bottom Navigation for Mobile -->
+<nav class="fixed bottom-0 left-0 w-full bg-background border-t border-border-subtle z-50 md:hidden h-16 flex items-center justify-around shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+<a href="<?= SITE_URL ?>/" class="flex flex-col items-center gap-1 text-primary no-underline">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a href="<?= SITE_URL ?>/search" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-medium">Explore</span>
+</a>
+<a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
+<span class="material-symbols-outlined">newspaper</span>
+<span class="text-[10px] font-medium">E-Paper</span>
+</a>
+<a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant opacity-70 no-underline">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="text-[10px] font-medium">Saved</span>
+</a>
+</nav>
 </body>
 </html>
