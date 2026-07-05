@@ -308,9 +308,9 @@ body { padding-bottom: 0; }
 
 <!-- Breaking News Ticker -->
 <?php if (!empty($breaking)): ?>
-<div class="bg-surface-alt py-2 border-b border-border-subtle overflow-hidden">
+<div class="hidden md:block bg-surface-alt py-2 border-b border-border-subtle overflow-hidden">
 <div class="max-w-7xl mx-auto px-4 flex items-center">
-<div class="bg-primary text-white px-3 py-1 font-bold text-label-caps mr-4 shrink-0 rounded-sm"><span class="hidden md:inline">ताजा अपडेट</span><span class="md:hidden">BREAKING</span></div>
+<div class="bg-primary text-white px-3 py-1 font-bold text-label-caps mr-4 shrink-0 rounded-sm">ताजा अपडेट</div>
 <div class="relative flex-1 overflow-hidden h-6">
 <div class="scrolling-ticker flex items-center space-x-12">
 <?php foreach ($breaking as $bn): ?>
