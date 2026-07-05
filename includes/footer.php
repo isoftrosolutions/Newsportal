@@ -13,17 +13,17 @@
 <h2 class="text-headline-md font-headline-md font-bold text-white mb-4"><?= e(BRAND_NAME) ?></h2>
 <p class="text-caption opacity-70 mb-6"><?= e(SITE_NAME) ?> — <?= e(SITE_TAGLINE) ?><br>सत्य, निष्पक्ष र भरपर्दो समाचार प्रदान गर्न प्रतिबद्ध छौं। नेपाल र विश्वका ताजा समाचार एकै ठाउँमा।</p>
 <div class="flex space-x-4">
-<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://www.facebook.com/share/1M6PDqLoPw/" target="_blank">
-<span class="material-symbols-outlined text-[20px]">facebook</span>
+<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://www.facebook.com/share/1M6PDqLoPw/" target="_blank" title="Facebook">
+<i class="fab fa-facebook-f text-[16px]"></i>
 </a>
-<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://youtube.com/@gtnewsupdate?si=c_kkZsMWlpfSn7o7" target="_blank">
-<span class="material-symbols-outlined text-[20px]">play_circle</span>
+<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://youtube.com/@gtnewsupdate?si=c_kkZsMWlpfSn7o7" target="_blank" title="YouTube">
+<i class="fab fa-youtube text-[16px]"></i>
 </a>
-<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://instagram.com/gtnewsnepal" target="_blank">
-<span class="material-symbols-outlined text-[20px]">camera</span>
+<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://instagram.com/gtnewsnepal" target="_blank" title="Instagram">
+<i class="fab fa-instagram text-[16px]"></i>
 </a>
-<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://www.tiktok.com/@gtnewsnepalupdate" target="_blank">
-<span class="material-symbols-outlined text-[20px]">music_note</span>
+<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="https://www.tiktok.com/@gtnewsnepalupdate" target="_blank" title="TikTok">
+<i class="fab fa-tiktok text-[16px]"></i>
 </a>
 </div>
 </div>
@@ -50,15 +50,15 @@
 <h4 class="font-bold mb-4 uppercase text-label-caps tracking-widest border-b border-white/10 pb-2">सम्पर्क</h4>
 <ul class="space-y-3 text-caption opacity-80">
 <li class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] mt-0.5">location_on</span>
+<i class="fa fa-map-marker-alt text-[14px] mt-1 w-4"></i>
 <span>पर्सा (Parsa), Nepal</span>
 </li>
 <li class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] mt-0.5">call</span>
+<i class="fa fa-phone text-[14px] mt-1 w-4"></i>
 <span>+977 981-1805681</span>
 </li>
 <li class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[16px] mt-0.5">person</span>
+<i class="fa fa-user text-[14px] mt-1 w-4"></i>
 <span>श्री गौरव यादव - सञ्चालक</span>
 </li>
 </ul>
